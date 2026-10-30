@@ -18,7 +18,6 @@ To-do list:
  - Update as needed
 """
 
-
 import tkinter as tk
 #import beets
 import os
@@ -45,6 +44,10 @@ class Interface:
         self.prev_button = tk.Button(self.root, text="Prev", command=self.play_prev_file)
         self.prev_button.pack()
 
+    def contents_display_button(self, display_file_path):
+        self.contents_display_button = tk.Button(self.root, text="Contents", command=self.display_file_contents)
+        self.contents_display_button.pack()
+
     def play_file(self):
         # logic to play the selected audio file
         pass
@@ -57,12 +60,35 @@ class Interface:
         # logic to play the previous audio file
         pass
 
+    def display_file_contents(self):
+        # logic to display the contents of the selected audio file
+        output = FilePath("music_testing").display_file_contents()
+        lbl = tk.Label(self.root, text=output)
+        lbl.pack()
+
+
+class FilePath:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def get_file_path(self):
+        directory = "music_testing"
+        parent_dir = "C:\\Users\\Hayde\\OneDrive\\Documents"
+        path = os.path.join(parent_dir, directory)
+        return path
+
+    def display_file_contents(self):
+        file_path = self.get_file_path()
+        for file_name in os.listdir(file_path):
+            print(file_name)
+        return "\n".join(os.listdir(file_path))
 
 def main():
     app = Interface()
     app.play_button()
     app.next_button()
     app.prev_button()
+    app.contents_display_button(FilePath("music_testing").display_file_contents)
     app.root.mainloop()
 
 if __name__ == "__main__":
