@@ -4,7 +4,7 @@ This app will enable the user to listen to theri own audio files
 without sacrificing the functionality of an app like spotify.
 
 Developer: Hayden Schmidt
-Last update: September, 8, 2026
+Last update: October, 29, 2026
 
 To-do list:
  - Get GUI working
@@ -18,29 +18,53 @@ To-do list:
  - Update as needed
 """
 
+
 import tkinter as tk
+#import beets
 import os
 
-class Interface(tk.Tk):
+class Interface:
     def __init__(self):
-        super().__init__()
-        self.title("Audio App")
-        self.geometry("300x200")
+        # tkinter interface
+        self.root = tk.Tk()
+        self.root.title("AudioApp")
+        self.root.geometry('350x200')
 
-        # Add a label
-        label = tk.Label(self, text="Hello, GUI!", font=("Arial", 16))
-        label.pack(pady=20)
+    def play_button(self):
+        # gui button (to play audio files)
+        self.play_button = tk.Button(self.root, text="Play", command=self.play_file)
+        self.play_button.pack()
 
-        # Add a button
-        btn = tk.Button(self, text="Click Me", command=self.on_click)
-        btn.pack()
+    def next_button(self):
+        # gui button (to play the next audio file)
+        self.next_button = tk.Button(self.root, text="Next", command=self.play_next_file)
+        self.next_button.pack()
 
-    def on_click(self):
+    def prev_button(self):
+        # a gui button (to play the previous audio file)
+        self.prev_button = tk.Button(self.root, text="Prev", command=self.play_prev_file)
+        self.prev_button.pack()
 
-        print("Button clicked!")
+    def play_file(self):
+        # logic to play the selected audio file
+        pass
 
+    def play_next_file(self):
+        # logic to play the next audio file
+        pass
+
+    def play_prev_file(self):
+        # logic to play the previous audio file
+        pass
+
+
+def main():
+    app = Interface()
+    app.play_button()
+    app.next_button()
+    app.prev_button()
+    app.root.mainloop()
 
 if __name__ == "__main__":
-    app = Interface()
-    app.mainloop()
+    main()
 
