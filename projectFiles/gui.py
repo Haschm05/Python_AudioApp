@@ -18,6 +18,7 @@ To-do list:
  - Update as needed
 """
 
+from logging import root
 import tkinter as tk
 #import beets
 import os
@@ -29,26 +30,26 @@ class Interface:
         self.root.title("AudioApp")
         self.root.geometry('350x200')
 
-    def play_button(self):
+    def play_pause_button(self):
         # gui button (to play audio files)
-        self.play_button = tk.Button(self.root, text="Play", command=self.play_file)
-        self.play_button.pack()
+        self.play_pause_button = tk.Button(self.root, text="Play/Pause", command=self.play_pause_file)
+        self.play_pause_button.grid()
 
     def next_button(self):
         # gui button (to play the next audio file)
         self.next_button = tk.Button(self.root, text="Next", command=self.play_next_file)
-        self.next_button.pack()
+        self.next_button.grid()
 
     def prev_button(self):
         # a gui button (to play the previous audio file)
         self.prev_button = tk.Button(self.root, text="Prev", command=self.play_prev_file)
-        self.prev_button.pack()
+        self.prev_button.grid()
 
     def contents_display_button(self, display_file_path):
         self.contents_display_button = tk.Button(self.root, text="Contents", command=self.display_file_contents)
-        self.contents_display_button.pack()
+        self.contents_display_button.grid()
 
-    def play_file(self):
+    def play_pause_file(self):
         # logic to play the selected audio file
         pass
 
@@ -64,7 +65,29 @@ class Interface:
         # logic to display the contents of the selected audio file
         output = FilePath("music_testing").display_file_contents()
         lbl = tk.Label(self.root, text=output)
-        lbl.pack()
+        lbl.grid()
+
+    def button_grid(self):
+
+        btn = tk.Button(self.root, text="Play/Pause", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.play_pause_file)
+        btn.grid(column=0, row=0, sticky="nsew", padx=10, pady=10)
+
+        btn = tk.Button(self.root, text="Next", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.play_next_file)
+        btn.grid(column=1, row=0, sticky="nsew", padx=10, pady=10)
+
+        btn = tk.Button(self.root, text="Prev", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.play_prev_file)
+        btn.grid(column=2, row=0, sticky="nsew", padx=10, pady=10)
+
+        btn = tk.Button(self.root, text="Contents", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.display_file_contents)
+        btn.grid(column=3, row=0, sticky="nsew", padx=10, pady=10)
+
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_rowconfigure(1, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
+        self.root.grid_columnconfigure(2, weight=1)
+        self.root.grid_columnconfigure(3, weight=1)
+
 
 
 class FilePath:
@@ -85,10 +108,7 @@ class FilePath:
 
 def main():
     app = Interface()
-    app.play_button()
-    app.next_button()
-    app.prev_button()
-    app.contents_display_button(FilePath("music_testing").display_file_contents)
+    app.button_grid()
     app.root.mainloop()
 
 if __name__ == "__main__":
