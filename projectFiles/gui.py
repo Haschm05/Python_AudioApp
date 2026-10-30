@@ -88,8 +88,6 @@ class Interface:
         self.root.grid_columnconfigure(2, weight=1)
         self.root.grid_columnconfigure(3, weight=1)
 
-
-
 class FilePath:
     def __init__(self, file_path):
         self.file_path = file_path
