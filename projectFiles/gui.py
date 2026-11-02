@@ -18,8 +18,9 @@ To-do list:
  - Update as needed
 """
 
-from logging import root
 import tkinter as tk
+from tkinter import *
+from tkinter.ttk import Frame
 #import beets
 import os
 
@@ -46,8 +47,7 @@ class Interface:
         self.prev_button.grid()
 
     def contents_display_button(self, display_file_path):
-        self.contents_display_button = tk.Button(self.root, text="Contents", command=self.display_file_contents)
-        self.contents_display_button.grid()
+        pass
 
     def play_pause_file(self):
         # logic to play the selected audio file
@@ -67,22 +67,42 @@ class Interface:
         lbl = tk.Label(self.root, text=output)
         lbl.grid()
 
+    def scroll_window(self):
+        # Create Canvas and Scrollbar
+        canvas = Canvas(self.root)
+        scrollbar = Scrollbar(self.root, orient=VERTICAL, command=canvas.yview)
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        scrollbar.pack(side=RIGHT, fill=Y)
+        canvas.pack(side=LEFT, fill=BOTH, expand=True)
+
+        # Add Frame Inside Canvas
+        scrollable_frame = Frame(canvas)
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+
+    # Bind Scroll Events
+    def on_frame_configure(event):
+        canvas.configure(scrollregion=canvas.bbox("all"))
+
+        scrollable_frame.bind("<Configure>", on_frame_configure)
+
+    # Add Widgets to Scrollable Frame
+    for i in range(20):
+        Label(scrollable_frame, text=f"Item {i+1}").pack(pady=5)
+        root.mainloop()
+
     def button_grid(self):
 
-        btn = tk.Button(self.root, text="Play/Pause", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.play_pause_file)
-        btn.grid(column=0, row=0, sticky="nsew", padx=10, pady=10)
+        btn = tk.Button(self.root, text="Play/Pause", width=5, height=2, padx=1, pady=1, bg="lightblue", command=self.play_pause_file)
+        btn.grid(column=0, row=0)
 
-        btn = tk.Button(self.root, text="Next", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.play_next_file)
-        btn.grid(column=1, row=0, sticky="nsew", padx=10, pady=10)
+        btn = tk.Button(self.root, text="Next", width=5, height=2, padx=1, pady=1, bg="lightblue", command=self.play_next_file)
+        btn.grid(column=1, row=0)
 
-        btn = tk.Button(self.root, text="Prev", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.play_prev_file)
-        btn.grid(column=2, row=0, sticky="nsew", padx=10, pady=10)
-
-        btn = tk.Button(self.root, text="Contents", width=2, height=2, padx=10, pady=10, bg="lightblue", command=self.display_file_contents)
-        btn.grid(column=3, row=0, sticky="nsew", padx=10, pady=10)
+        btn = tk.Button(self.root, text="Prev", width=5, height=2, padx=1, pady=1, bg="lightblue", command=self.play_prev_file)
+        btn.grid(column=2, row=0)
 
         self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_rowconfigure(1, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_columnconfigure(2, weight=1)
